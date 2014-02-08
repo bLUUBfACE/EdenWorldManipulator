@@ -47,7 +47,6 @@
     <Compile Include="Block.cs" />
     <Compile Include="Manipulations.cs" />
     <Compile Include="Manipulator.cs" />
-    <Compile Include="MyFirstManipulator.cs" />
     <Compile Include="Paintings.cs" />
     <Compile Include="BlockTypes.cs" />
     <Compile Include="Form1.cs">
