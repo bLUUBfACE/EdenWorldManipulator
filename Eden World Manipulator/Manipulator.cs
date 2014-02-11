@@ -9,19 +9,15 @@ namespace Eden_World_Manipulator
     public static partial class Manipulator
     {
         static int maxX, maxY, maxZ;
-        static Func<int, int, int, Block> getBlockAtPosition;
+
+        static World currentWorld;
 
         public static void Manipulate(this World world, Func<Block, Block> manipulatorDelegate)
         {
             byte?[,,,] newMap = new byte?[world.Map.GetLength(0), world.Map.GetLength(1), world.Map.GetLength(2), 2];
-            maxX = world.Map.GetLength(0) - 1; maxY = world.Map.GetLength(0) - 1; maxZ = world.Map.GetLength(0) - 1;
 
-            getBlockAtPosition = (x, y, z) => 
-            {
-                if (world.Map[x, y, z, 0] == null)
-                    return null;
-                return new Block(world.Map[x, y, z, 0], world.Map[x, y, z, 1], x, y, z);
-            };
+            currentWorld = world;
+            maxX = world.Map.GetLength(0) - 1; maxY = world.Map.GetLength(0) - 1; maxZ = world.Map.GetLength(0) - 1;
 
             Block block;
             for (int x = 0; x < world.Map.GetLength(0); x++)
@@ -34,8 +30,8 @@ namespace Eden_World_Manipulator
                         {
                             block = getBlockAtPosition(x, y, z);
                             block = manipulatorDelegate(block);
-                            newMap[x, y, z, 0] = block.BlockType;
-                            newMap[x, y, z, 1] = block.Painting;
+                            newMap[x, y, z, 0] = (byte)block.BlockType;
+                            newMap[x, y, z, 1] = (byte)block.Painting;
                         }
                     }
                 }
@@ -63,5 +59,12 @@ namespace Eden_World_Manipulator
             }
             return neighbourBlocks;
         }        
+
+        static Block getBlockAtPosition(int x, int y, int z)
+        {
+            if (currentWorld.Map[x, y, z, 0] == null)
+                return null;
+            return new Block((BlockType)currentWorld.Map[x, y, z, 0], (Painting)currentWorld.Map[x, y, z, 1], x, y, z);
+        }
     }
 }

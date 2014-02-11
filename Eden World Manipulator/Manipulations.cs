@@ -28,9 +28,9 @@ namespace Eden_World_Manipulator
 
         public static Block BottomlessManipulation(Block block)
         {
-            if (((((BlockType)block.BlockType == BlockType.Dirt && block.Z <= 31 && block.Z > 15) || ((BlockType)block.BlockType == BlockType.Stone && block.Z <= 15)) && getNeighbourBlocks(block).All(b => (BlockType)b.BlockType != BlockType.Air && (BlockType)b.BlockType != BlockType.Water && (b.BlockType < 24 || b.BlockType > 39)))
+            if (((((BlockType)block.BlockType == BlockType.Dirt && block.Z <= 31 && block.Z > 15) || ((BlockType)block.BlockType == BlockType.Stone && block.Z <= 15)) && getNeighbourBlocks(block).All(b => (BlockType)b.BlockType != BlockType.Air && (BlockType)b.BlockType != BlockType.Water && ((byte)b.BlockType < 24 || (byte)b.BlockType > 39)))
                 || ((BlockType)block.BlockType == BlockType.Grass && block.Z == 32 && getNeighbourBlocks(block, true, true, false).All(b => (BlockType)b.BlockType == BlockType.Grass) && (BlockType)getBlockAtPosition(block.X, block.Y, block.Z - 1).BlockType == BlockType.Dirt)
-                || block.BlockType == 1)
+                || block.BlockType == BlockType.Bedrock)
                 return new Block(BlockType.Air, Painting.Unpainted);
             return block;
         }

@@ -8,19 +8,11 @@ namespace Eden_World_Manipulator
 {
     public class Block
     {
-        public readonly byte BlockType, Painting;
+        public readonly BlockType BlockType;
+        public readonly Painting Painting;
         public readonly int X, Y, Z;
 
         public Block(BlockType type, Painting painting, int x, int y, int z)
-            : this((byte)type, (byte)painting, x, y, z) { }
-
-        public Block(byte? type, byte? painting, int x, int y, int z)
-            : this((byte)type, (byte)painting, x, y, z) { }
-
-        public Block(BlockType type, Painting painting)
-            : this((byte)type, (byte)painting, -1, -1, -1) { }
-
-        private Block(byte type, byte painting, int x, int y, int z)
         {
             this.BlockType = type;
             this.Painting = painting;
@@ -28,5 +20,11 @@ namespace Eden_World_Manipulator
             this.Y = y;
             this.Z = z;
         }
+
+        public Block(byte? type, byte? painting, int x, int y, int z)
+            : this((BlockType)type, (Painting)painting, x, y, z) { }
+
+        public Block(BlockType type, Painting painting)
+            : this(type, painting, -1, -1, -1) { }
     }
 }
