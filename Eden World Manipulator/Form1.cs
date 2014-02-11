@@ -18,6 +18,11 @@ namespace Eden_World_Manipulator
         {
             InitializeComponent();
             panel1.Size = new Size(176, 141);
+            foreach (string s in Manipulator.Manipulations.Keys)
+            {
+                comboBox1.Items.Add(s);
+            }
+            comboBox1.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -34,7 +39,6 @@ namespace Eden_World_Manipulator
 
                     button2.Enabled = true;
                     groupBox1.Enabled = true;
-                    groupBox2.Enabled = true;
                 }
                 catch(Exception exception)
                 {
@@ -45,8 +49,10 @@ namespace Eden_World_Manipulator
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            panel1.Size = new Size(this.world.Map.GetLength(0) / 2 + 1, this.world.Map.GetLength(1) / 2 + 1);
-            this.world.Draw(e.Graphics);
+            int chunkDrawingSize = (int)(600f / (Math.Max(this.world.Map.GetLength(0), this.world.Map.GetLength(1)) / 16));
+
+            panel1.Size = new Size(this.world.Map.GetLength(0) * chunkDrawingSize / 16 + 5, this.world.Map.GetLength(1) * chunkDrawingSize / 16 + 5);
+            this.world.Draw(e.Graphics, chunkDrawingSize);
         }        
 
         private void button2_Click(object sender, EventArgs e)
@@ -61,45 +67,19 @@ namespace Eden_World_Manipulator
                 catch
                 {
                     MessageBox.Show("Unable to save file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
             }
         }
-        
+
         private void button3_Click(object sender, EventArgs e)
         {
-            this.world.Manipulate(Manipulator.BottomlessManipulation);
+            Manipulator.Manipulate(this.world, Manipulator.Manipulations[comboBox1.SelectedItem.ToString()]);
             MessageBox.Show("Manipulation done!");
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void comboBox1_TextChanged(object sender, EventArgs e)
         {
-            this.world.Manipulate(Manipulator.SphereCreation);
-            MessageBox.Show("Creation done!");
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            this.world.Manipulate(Manipulator.CylinderCreation);
-            MessageBox.Show("Creation done!");
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            this.world.Manipulate(Manipulator.NaturalManipulation);
-            MessageBox.Show("Manipulation done!");
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            //this.world.Manipulate(Manipulator.SphericBlockTypeManipulation);
-            //MessageBox.Show("Manipulation done!");
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            this.world.Manipulate(Manipulator.OceanCreation);
-            MessageBox.Show("Creation done!");
+            button3.Enabled = Manipulator.Manipulations.Keys.Contains(comboBox1.Text);
         }
     }
 }

@@ -8,6 +8,19 @@ namespace Eden_World_Manipulator
 {
     public static partial class Manipulator
     {
+        //Add your own manipulations into this Dictionary if you want them to appear in the program
+        public static readonly Dictionary<string, Func<Block, Block>> Manipulations = new Dictionary<string, Func<Block, Block>>()
+        {
+            {"Bottomless", BottomlessManipulation},
+            {"Naturalize", NaturalManipulation},            
+            {"Glass bottom", GlassBottomManipulation},
+
+            {"Create sphere", SphereCreation},
+            {"Create cylinder", CylinderCreation},
+            {"Create ocean", OceanCreation},
+        };
+
+
         static Random random = new Random();
 
         public static Tuple<float, float, float> CenterPosition = new Tuple<float, float, float>(100.5f, 100.5f, 32.5f);
@@ -84,6 +97,12 @@ namespace Eden_World_Manipulator
             }
 
             return new Block(newBlockType, newPainting);
+        }
+        public static Block GlassBottomManipulation(Block block)
+        {
+            if ((BlockType)block.BlockType == BlockType.Bedrock)
+                return new Block(BlockType.Glass, Painting.DarkGray);
+            return block;
         }
 
         public static Block SphereCreation(Block block)

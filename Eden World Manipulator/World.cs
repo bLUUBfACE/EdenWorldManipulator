@@ -129,12 +129,11 @@ namespace Eden_World_Manipulator
             this.WorldArea = worldArea;
         }
 
-        public void Draw(Graphics graphics)
+        public void Draw(Graphics graphics, int chunkDrawingSize)
         {
             foreach (int address in Chunks.Keys)
             {
-                graphics.DrawRectangle(Pens.Black, new Rectangle((Chunks[address].X - WorldArea.X) * 8, (Chunks[address].Y - WorldArea.Y) * 8, 8, 8));
-                graphics.DrawString(address.ToString(), new Font("Arial", 8), Brushes.Green, Chunks[address].X * 8, Chunks[address].Y * 8);
+                graphics.DrawRectangle(Pens.Black, new Rectangle((Chunks[address].X - WorldArea.X) * chunkDrawingSize, (Chunks[address].Y - WorldArea.Y) * chunkDrawingSize, chunkDrawingSize, chunkDrawingSize));
             }
         }
     }
